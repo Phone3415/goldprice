@@ -1,0 +1,25 @@
+{
+  "name": "goldprice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    ".": "cls && tsc && node build/index.js"
+  },
+  "keywords": [],
+  "author": "Phone3415",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.1.0",
+    "node-fetch": "^3.3.2",
+    "oop-path": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "@types/node-fetch": "^2.6.13",
+    "typescript": "^5.9.2"
+  }
+}

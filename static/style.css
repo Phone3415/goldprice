@@ -1,0 +1,121 @@
+:root {
+  --glass: rgba(255, 255, 255, 0.2);
+  --glass-05: rgba(255, 255, 255, 0.5);
+  --glass-black: rgba(0, 0, 0, 0.2);
+  --glass-black-05: rgba(0, 0, 0, 0.5);
+
+  --glass-border: 2px solid rgba(255, 255, 255, 0.5);
+  --glass-border-thin: 1px solid rgba(255, 255, 255, 0.5);
+
+  --glass-backdrop: blur(20px);
+  --glass-backdrop-50: blur(50px);
+
+  --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+  --radius-normal: 16px;
+  --radius-round: 9999px;
+
+  --background: linear-gradient(135deg, #f3f8ff, #fdfeff);
+
+  --z-index-999: 99999;
+  --z-index-scrollbar: calc(var(--z-index-999) - 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+body {
+  background: var(--background) no-repeat center top;
+  background-size: cover;
+  background-attachment: fixed;
+
+  overflow-x: clip;
+
+  scrollbar-width: 0;
+  -ms-overflow-style: none;
+
+  font-family: "Prompt", "Noto Sans Thai", "Kanit", sans-serif;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+header {
+  width: 100%;
+  height: 7.5rem;
+
+  position: sticky;
+  inset: 0;
+
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+  margin: 0;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  z-index: var(--z-index-999);
+}
+
+.initFadeUp {
+  animation: fadeUp 500ms ease-out forwards;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.underline {
+  text-decoration: underline;
+}
+
+.glass {
+  background: var(--glass);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-black {
+  background: var(--glass-black);
+  backdrop-filter: var(--glass-backdrop);
+  -webkit-backdrop-filter: var(--glass-backdrop);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-50 {
+  background: var(--glass);
+  backdrop-filter: var(--glass-backdrop-50);
+  -webkit-backdrop-filter: var(--glass-backdrop-50);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-black-50 {
+  background: var(--glass-black);
+  backdrop-filter: var(--glass-backdrop-50);
+  -webkit-backdrop-filter: var(--glass-backdrop-50);
+  box-shadow: var(--glass-shadow);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
