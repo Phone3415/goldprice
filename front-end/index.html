@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ราคาทอง</title>
@@ -13,8 +13,19 @@
     />
 
     <link rel="stylesheet" href="/static/style.css" />
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <main class="glass">
+      <p>ราคาทองคำปัจจุบัน: <span class="gold-price">กำลังโหลด...</span></p>
+
+      <section class="form-group">
+        <label for="currency">สกุลเงิน</label>
+        <select name="currency" onchange="updateGoldPrice()">
+          <option value="THB">Thai Baht</option>
+        </select>
+      </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+  </body>
 </html>
