@@ -13,26 +13,15 @@
     />
 
     <link rel="stylesheet" href="/static/styles/theme.css" />
-    <link rel="stylesheet" href="/static/styles/index.css" />
+    <link rel="stylesheet" href="/static/styles/logs.css" />
   </head>
   <body>
     <main class="glass">
-      <p>
-        ราคาทองคำปัจจุบัน: <span class="gold-price">กำลังโหลด...</span> ต่อออนซ์
-      </p>
-
-      <section class="form-group">
-        <label for="currency">สกุลเงิน</label>
-        <select name="currency" onchange="updateGoldPrice()">
-          <option value="THB">Thai Baht</option>
-        </select>
+      <section class="logs-container">
+        
       </section>
-
-      <a href="/logs">
-        <button class="button-primary">ดูย้อนหลัง</button>
-      </a>
     </main>
 
-    <script src="/static/scripts/index.js"></script>
+    <script src="/static/scripts/logs.js"></script>
   </body>
 </html>

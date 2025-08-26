@@ -44,5 +44,5 @@ window.addEventListener("DOMContentLoaded", () => {
   getCurrencies();
   updateGoldPrice();
 
-  setInterval(updateGoldPrice, 30000);
+  setInterval(updateGoldPrice, 300000);
 });

@@ -13,3 +13,5 @@ export interface GoldPrice {
   updatedAt: string;
   updatedAtReadable: string;
 }
+
+export const MILLISECONDS_7_DAYS = 604800000;
