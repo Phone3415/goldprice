@@ -12,15 +12,14 @@ const pool = new pg.Pool({
 });
 
 class Logs {
-  private database!: pg.PoolClient;
+  public database!: pg.PoolClient;
   private closeTimeout: NodeJS.Timeout | null = null;
   public closed: boolean = false;
 
   constructor() {
-    this.init();
   }
 
-  private async init() {
+  public async init() {
     try {
       this.database = await pool.connect();
 

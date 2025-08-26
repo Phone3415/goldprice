@@ -20,6 +20,9 @@ app.get("/", (_, res: Response) => {
 });
 
 let logs = new Logs();
+(async function () {
+  await logs.init();
+})();
 
 async function getGoldPrice(): Promise<number | null> {
   const goldResponse = await fetch("https://api.gold-api.com/price/XAU");
@@ -65,8 +68,11 @@ app.post("/price", async (req: Request, res: Response) => {
     return;
   }
 
-  if (logs.closed) logs = new Logs();
-  logs.append(goldPrice);
+  if (logs.closed || !logs.database) {
+    logs = new Logs();
+    await logs.init();
+  }
+  await logs.append(goldPrice);
 
   res.json({ GOLD_PRICE: currencyGoldPrice });
 });
@@ -92,6 +98,11 @@ let lastClear = Date.now() - MILLISECONDS_7_DAYS;
 app.get("/logs", async (_, res: Response) => {
   if (lastClear <= Date.now() - MILLISECONDS_7_DAYS) {
     lastClear = Date.now();
+    if (logs.closed || !logs.database) {
+      logs = new Logs();
+      await logs.init();
+    }
+
     await logs.clearOlderThan7Days();
   }
 

@@ -17,6 +17,9 @@ app.get("/", (_, res) => {
     res.sendFile(path_1.default.frontEnd.join("index.html").path);
 });
 let logs = new logs_1.default();
+(async function () {
+    await logs.init();
+})();
 async function getGoldPrice() {
     const goldResponse = await (0, node_fetch_1.default)("https://api.gold-api.com/price/XAU");
     if (!goldResponse.ok) {
@@ -49,9 +52,11 @@ app.post("/price", async (req, res) => {
         res.status(500).end();
         return;
     }
-    if (logs.closed)
+    if (logs.closed || !logs.database) {
         logs = new logs_1.default();
-    logs.append(goldPrice);
+        await logs.init();
+    }
+    await logs.append(goldPrice);
     res.json({ GOLD_PRICE: currencyGoldPrice });
 });
 app.get("/currencies", async (_, res) => {
@@ -70,6 +75,10 @@ let lastClear = Date.now() - types_1.MILLISECONDS_7_DAYS;
 app.get("/logs", async (_, res) => {
     if (lastClear <= Date.now() - types_1.MILLISECONDS_7_DAYS) {
         lastClear = Date.now();
+        if (logs.closed || !logs.database) {
+            logs = new logs_1.default();
+            await logs.init();
+        }
         await logs.clearOlderThan7Days();
     }
     res.sendFile(path_1.default.frontEnd.join("logs.html").path);

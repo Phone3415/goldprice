@@ -18,7 +18,6 @@ class Logs {
     closeTimeout = null;
     closed = false;
     constructor() {
-        this.init();
     }
     async init() {
         try {
