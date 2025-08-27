@@ -20,6 +20,9 @@ app.get("/", (_, res: Response) => {
 });
 
 const logs = new Logs();
+(async function() {
+  await logs.init();
+})();
 
 async function getGoldPrice(): Promise<number | null> {
   const goldResponse = await fetch("https://api.gold-api.com/price/XAU");
