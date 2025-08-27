@@ -7,7 +7,7 @@ import {
   CurrencyExchange,
   MILLISECONDS_7_DAYS,
 } from "./Utils/types";
-import Logs from "./Utils/logs";
+import Logs, { initDatabase } from "./Utils/logs";
 
 env.config();
 
@@ -18,8 +18,6 @@ app.use(express.json());
 app.get("/", (_, res: Response) => {
   res.sendFile(Path.frontEnd.join("index.html").path);
 });
-
-const logs = new Logs();
 
 async function getGoldPrice(): Promise<number | null> {
   const goldResponse = await fetch("https://api.gold-api.com/price/XAU");
@@ -65,6 +63,7 @@ app.post("/price", async (req: Request, res: Response) => {
     return;
   }
 
+  const logs = await Logs.init();
   await logs.append(goldPrice);
 
   res.json({ GOLD_PRICE: currencyGoldPrice });
@@ -92,6 +91,7 @@ app.get("/logs", async (_, res: Response) => {
   if (lastClear <= Date.now() - MILLISECONDS_7_DAYS) {
     lastClear = Date.now();
 
+    const logs = await Logs.init();
     await logs.clearOlderThan7Days();
   }
 
@@ -102,6 +102,7 @@ app.get("/fetchLogs", async (req: Request, res: Response) => {
   const page = Number(req.query.page);
   if (isNaN(page)) return res.status(400).end();
 
+  const logs = await Logs.init();
   const logsContent = await logs.loads(page);
 
   res.json({ logs: logsContent });

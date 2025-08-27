@@ -4,37 +4,35 @@ import { MILLISECONDS_7_DAYS } from "./types";
 
 env.config();
 
-const pool = new pg.Pool({
+export const pool = new pg.Pool({
   connectionString: process.env.DB_CONNECTION,
   ssl: {
     rejectUnauthorized: Boolean(process.env.DB_REJECTUNAUTH ?? true),
   },
 });
 
-export let database: pg.PoolClient;
-(async function () {
-  try {
-    database = await pool.connect();
-
-    await database.query(`
+export async function initDatabase() {
+  await pool.query(`
         CREATE TABLE IF NOT EXISTS logs (
           timestamp BIGINT,
           gold_price NUMERIC(18,2) PRIMARY KEY
         )
       `);
-  } catch (e) {
-    console.error(e);
-  }
-})();
+}
 
 class Logs {
   constructor() {}
+
+  public static async init() {
+    await initDatabase();
+    return new Logs();
+  }
 
   public async append(currentValue: number) {
     const timestamp = Date.now();
 
     // Upsert in Postgres: INSERT ... ON CONFLICT DO NOTHING
-    await database.query(
+    await pool.query(
       `
       INSERT INTO logs (timestamp, gold_price)
       VALUES ($1, $2)
@@ -47,7 +45,7 @@ class Logs {
   public async loads(startIndex: number) {
     const pageSize = 10;
 
-    const result = await database.query(
+    const result = await pool.query(
       `
       SELECT *
       FROM logs
@@ -62,7 +60,7 @@ class Logs {
   }
 
   public async clear() {
-    const result = await database.query(`DELETE FROM logs`);
+    const result = await pool.query(`DELETE FROM logs`);
 
     return result.rowCount; // number of rows deleted
   }
@@ -70,7 +68,7 @@ class Logs {
   public async clearOlderThan7Days() {
     const sevenDaysAgo = Date.now() - MILLISECONDS_7_DAYS;
 
-    const result = await database.query(
+    const result = await pool.query(
       `
       DELETE FROM logs
       WHERE timestamp < $1
